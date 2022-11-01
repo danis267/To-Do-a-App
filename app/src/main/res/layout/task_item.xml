@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginEnd="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="8dp"
+    app:cardCornerRadius="5dp"
+    app:cardElevation="7dp"
+    android:elevation="5dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:maxLines="1"
+            android:ellipsize="end"/>
+
+       <TextView
+           android:id="@+id/Detail"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:layout_below="@id/title"
+           android:layout_marginTop="5dp"
+           android:text="Detail"
+           android:layout_alignParentStart="true"
+           android:layout_alignParentEnd="true"
+           android:textSize="20sp"/>
+
+        <TextView
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/Detail"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="4dp"
+            android:text="Creation date:"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/Create_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/create"
+            android:layout_marginTop="8dp"
+            android:text="Creat Date"
+            android:layout_marginEnd="4dp"
+            android:layout_alignParentEnd="true"
+            android:textSize="17sp"/>
+
+        <TextView
+            android:id="@+id/complete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Completion date:"
+            android:textColor="@color/black"
+            android:layout_marginTop="6dp"
+            android:layout_marginStart="4dp"
+            android:textSize="15sp"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/Detail"/>
+
+        <TextView
+            android:id="@+id/Completion_Date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/complete"
+            android:text="Completion Date"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="4dp"
+            android:textSize="17sp"
+            android:layout_alignParentStart="true"/>
+
+
+
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

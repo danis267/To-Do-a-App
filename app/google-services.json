@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "683092622795",
+    "project_id": "task-management-app-cb8d5",
+    "storage_bucket": "task-management-app-cb8d5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:683092622795:android:b8a25d2529c9cb86374a4e",
+        "android_client_info": {
+          "package_name": "com.example.to_do"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "683092622795-fiq3krq9662tk5k0varkpe92tv6frglb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAl5NsHz1Ggt-UrYp5KU1BwtKWuGoLSSGo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "683092622795-fiq3krq9662tk5k0varkpe92tv6frglb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
