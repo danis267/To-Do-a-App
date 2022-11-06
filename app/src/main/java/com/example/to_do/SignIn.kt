@@ -23,7 +23,6 @@ class SignIn : AppCompatActivity() {
     private lateinit var buttonSignIn: MaterialButton
     private lateinit var pbar2: ProgressBar
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
     private lateinit var preferenceManager: PreferenceManager
 
     @SuppressLint("MissingInflatedId")
@@ -31,7 +30,6 @@ class SignIn : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
 
         val currentUser = auth.currentUser
         if (currentUser != null) {
@@ -93,26 +91,9 @@ class SignIn : AppCompatActivity() {
 
         auth.signInWithEmailAndPassword(email, pass).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                db.collection(Constants.KEY_COLLECTION_USERS)
-                    .whereEqualTo(Constants.KEY_EMAIL, inputEmail.text.toString())
-                    .whereEqualTo(Constants.KEY_PASSWORD, inputPassword.text.toString())
-                    .get()
-                    .addOnCompleteListener {
-                        if (it.isSuccessful && it.result != null && it.result.documents.size > 0) {
-                            val documentSnapshot: DocumentSnapshot = it.result.documents[0]
-                            preferenceManager.putString(Constants.KEY_ID, documentSnapshot.id)
-                            preferenceManager.putString(Constants.KEY_FIRST_NAME, documentSnapshot.getString(Constants.KEY_FIRST_NAME))
-                            preferenceManager.putString(Constants.KEY_LAST_NAME, documentSnapshot.getString(Constants.KEY_LAST_NAME))
-
-                            val intent = Intent(this@SignIn, MainActivity::class.java)
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                            startActivity(intent)
-                        } else {
-                            pbar2.visibility = View.INVISIBLE
-                            buttonSignIn.visibility = View.VISIBLE
-                            Toast.makeText(this@SignIn, "Unable To Sign In", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                val intent = Intent(this@SignIn, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
             } else {
                 pbar2.visibility = View.INVISIBLE
                 buttonSignIn.visibility = View.VISIBLE

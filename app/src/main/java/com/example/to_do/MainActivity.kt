@@ -14,8 +14,10 @@ import androidx.recyclerview.widget.ItemTouchHelper.SimpleCallback
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentReference
-import com.google.firebase.firestore.FieldValue
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MainActivity : AppCompatActivity() {
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var db: FirebaseFirestore
     private lateinit var preferenceManager: PreferenceManager
     private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var uid : String
 
     companion object {
         const val ADD_TASK_REQUEST = 1
@@ -37,6 +41,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         firebaseAuth = FirebaseAuth.getInstance()
+        uid = firebaseAuth.uid.toString()
+        firebaseDatabase = FirebaseDatabase.getInstance()
 
         db = FirebaseFirestore.getInstance()
         preferenceManager = PreferenceManager(this@MainActivity)
@@ -75,24 +81,6 @@ class MainActivity : AppCompatActivity() {
             ) {
                 viewModel.delete(taskAdapter.deleteTask(viewHolder.adapterPosition))
 
-//                val documentReference = preferenceManager.getString(Constants.KEY_ID)?.let {
-//                    db.collection(Constants.KEY_COLLECTION_USERS)
-//                        .document(it)
-//                }
-//                val user = HashMap<String, Any>()
-//                user[Constants.TASK_TITLE] = FieldValue.delete()
-//                user[Constants.TASK_DETAIL] = FieldValue.delete()
-//                user[Constants.TASK_COMPLETION_DATE] = FieldValue.delete()
-//                user[Constants.TASK_CREATION_DATE] = FieldValue.delete()
-//                user[Constants.KEY_FIRST_NAME] = preferenceManager.getString(Constants.KEY_FIRST_NAME)!!
-//                user[Constants.KEY_LAST_NAME] = preferenceManager.getString(Constants.KEY_LAST_NAME)!!
-//
-//                documentReference?.update(user)
-//                    ?.addOnSuccessListener {
-//                        Toast.makeText(this@MainActivity, "success", Toast.LENGTH_SHORT).show()
-//                    }?.addOnFailureListener {
-//                        Toast.makeText(this@MainActivity, "failed", Toast.LENGTH_SHORT).show()
-//                    }
                 Toast.makeText(this@MainActivity, "Task deleted", Toast.LENGTH_SHORT).show()
             }
         }).attachToRecyclerView(recyclerView)
@@ -145,21 +133,14 @@ class MainActivity : AppCompatActivity() {
 
             viewModel.insert(Data(taskTitle, taskDetail, completionDate, creationDate))
 
-//            val user = HashMap<String, String>()
-//            user[Constants.TASK_TITLE] = taskTitle!!
-//            user[Constants.TASK_DETAIL] = taskDetail!!
-//            user[Constants.TASK_COMPLETION_DATE] = completionDate!!
-//            user[Constants.TASK_CREATION_DATE] = creationDate!!
-//            user[Constants.KEY_FIRST_NAME] = preferenceManager.getString(Constants.KEY_FIRST_NAME)!!
-//            user[Constants.KEY_LAST_NAME] = preferenceManager.getString(Constants.KEY_LAST_NAME)!!
-//
-//            db.collection(Constants.KEY_COLLECTION_USERS)
-//                .add(user)
-//                .addOnSuccessListener {
-//                    preferenceManager.putString(Constants.KEY_ID, it.id)
-//                }.addOnFailureListener {
-//                    //Toast.makeText(this@MainActivity, "failed", Toast.LENGTH_SHORT).show()
-//                }
+            firebaseDatabase.reference.child("users")
+                .child(uid)
+                .push()
+                .setValue(Data(taskTitle, taskDetail, completionDate, creationDate)).addOnSuccessListener {
+
+                }
+
+
 
             Toast.makeText(this@MainActivity, "Task saved", Toast.LENGTH_SHORT).show()
         } else {

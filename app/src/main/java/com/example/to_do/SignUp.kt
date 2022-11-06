@@ -26,7 +26,6 @@ class SignUp : AppCompatActivity() {
     private lateinit var buttonSignUp: MaterialButton
     private lateinit var pbar1: ProgressBar
     private lateinit var auth: FirebaseAuth
-    private lateinit var db: FirebaseFirestore
     private lateinit var preferenceManager: PreferenceManager
 
     @SuppressLint("MissingInflatedId")
@@ -34,8 +33,6 @@ class SignUp : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
-        db = FirebaseFirestore.getInstance()
-
         val currentUser = auth.currentUser
         if (currentUser != null) {
             val intent = Intent(this@SignUp, MainActivity::class.java)
@@ -127,21 +124,9 @@ class SignUp : AppCompatActivity() {
 
         auth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this) { task ->
             if (task.isSuccessful) {
-                db.collection(Constants.KEY_COLLECTION_USERS)
-                    .add(user)
-                    .addOnSuccessListener {
-                        preferenceManager.putString(Constants.KEY_ID, it.id)
-                        preferenceManager.putString(Constants.KEY_FIRST_NAME, inputFirst.text.toString())
-                        preferenceManager.putString(Constants.KEY_LAST_NAME, inputLast.text.toString())
-
-                        val intent = Intent(this@SignUp, MainActivity::class.java)
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(intent)
-                    }.addOnFailureListener {
-                        pbar1.visibility = View.INVISIBLE
-                        buttonSignUp.visibility = View.VISIBLE
-                        Toast.makeText(this@SignUp, "Error: " + it.message, Toast.LENGTH_SHORT).show()
-                    }
+                val intent = Intent(this@SignUp, MainActivity::class.java)
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(intent)
             } else {
                 pbar1.visibility = View.INVISIBLE
                 buttonSignUp.visibility = View.VISIBLE
